@@ -1,15 +1,20 @@
 // import { useState } from "react";
-import { Platform, View, StyleSheet } from "react-native"; //platform helps retrieve the OS of the device used
+import { Platform, View, StyleSheet, Text, Image } from "react-native"; //platform helps retrieve the OS of the device used
 import CampsiteInfoScreen from "./CampsiteInfoScreen";
 // import { CAMPSITES } from "../shared/campsites";
 import DirectoryScreen from "./DirectoryScreen";
 import Constants from "expo-constants";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import HomeScreen from "./HomeScreen";
 import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
 import { Icon } from "react-native-elements";
+import logo from "../assets/images/logo.png";
 
 const Drawer = createDrawerNavigator();
 
@@ -125,6 +130,20 @@ const DirectoryNavigator = () => {
   );
 };
 
+const CustomerDrawerContent = (props) => (
+  <DrawerContentScrollView {...props}>
+    <View style={styles.drawerHeader}>
+      <View style={{ flex: 1 }}>
+        <Image source={logo} style={styles.drawerImage} />
+      </View>
+      <View style={{ flex: 2 }}>
+        <Text style={styles.drawerHeaderText}>NuCamp</Text>
+      </View>
+    </View>
+    <DrawerItemList {...props} labelStyle={{ fontWeight: "bold" }} />
+  </DrawerContentScrollView>
+);
+
 const Main = () => {
   return (
     <View
@@ -136,6 +155,7 @@ const Main = () => {
       <Drawer.Navigator
         initialRouteName="Home"
         drawerStyle={{ backgroundColor: "#CEC8FF" }}
+        drawerContent={CustomerDrawerContent}
       >
         <Drawer.Screen
           name="Home"
@@ -212,6 +232,24 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: "#fff",
     fontSize: 24,
+  },
+  drawerHeader: {
+    backgroundColor: "#5637DD",
+    height: 140,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    flexDirection: "row",
+  },
+  drawerHeaderText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  drawerImage: {
+    margin: 10,
+    height: 60,
+    width: 60,
   },
 });
 
