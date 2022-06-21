@@ -15,6 +15,12 @@ import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
 import { Icon } from "react-native-elements";
 import logo from "../assets/images/logo.png";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchPartners } from "../features/partners/partnersSlice";
+import { fetchCampsites } from "../features/campsites/campsitesSlice";
+import { fetchComments } from "../features/comments/commentsSlice";
+import { fetchPromotions } from "../features/promotions/promotionsSlice";
 
 const Drawer = createDrawerNavigator();
 
@@ -145,6 +151,15 @@ const CustomerDrawerContent = (props) => (
 );
 
 const Main = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCampsites());
+    dispatch(fetchPromotions());
+    dispatch(fetchPartners());
+    dispatch(fetchComments());
+  }, [dispatch]);
+
   return (
     <View
       style={{
