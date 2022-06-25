@@ -9,8 +9,8 @@ import { postComment } from "../features/comments/commentsSlice";
 const CampsiteInfoScreen = ({ route }) => {
   const [showModal, setShowModal] = useState(false);
   const [rating, setRating] = useState(5);
-  const [author, setAuthor] = useState(" ");
-  const [text, setText] = useState(" ");
+  const [author, setAuthor] = useState("");
+  const [text, setText] = useState("");
   const { campsite } = route.params;
   const comments = useSelector((state) => state.comments);
 
@@ -25,26 +25,29 @@ const CampsiteInfoScreen = ({ route }) => {
       campsiteId: campsite.id,
     };
     // console.log(newComment);
+    console.log(newComment);
     dispatch(postComment(newComment));
     setShowModal(!showModal);
     resetForm();
   };
   const resetForm = () => {
     setRating(5);
-    setAuthor(" ");
-    setText(" ");
+    setAuthor("");
+    setText("");
   };
   const renderCommentItem = ({ item }) => {
     return (
       <View style={styles.commentItem}>
-        {/* <Text style={{ fontSize: 14 }}>{item.text}</Text> */}
+        <Text style={{ fontSize: 14 }}>{item.text}</Text>
         <Rating
-          startingValue={rating}
+          startingValue={item.rating}
           readonly
           imageSize={10}
           style={{ alignItems: "flex-start", paddingVertical: "5%" }}
-        />
-        <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+        >
+          {item.rating} Stars
+        </Rating>
+        {/* <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text> */}
         <Text style={{ fontSize: 12 }}>
           {`-- ${item.author}, ${item.date}`}
         </Text>
@@ -102,29 +105,8 @@ const CampsiteInfoScreen = ({ route }) => {
             leftIcon={{ name: "comment-o", type: "font-awesome" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(comment) => setText(comment)}
-            value={rating}
+            value={text}
           />
-
-          <View style={{ margine: 10 }}>
-            <Button
-              onPress={() => {
-                handleSubmit();
-                resetForm();
-              }}
-              color="#5673DD"
-              title="Submit"
-            />
-          </View>
-          <View style={{ margin: 10 }}>
-            <Button
-              onPress={() => {
-                setShowModal(!showModal);
-                resetForm();
-              }}
-              color="#808080"
-              title="Cancel"
-            />
-          </View>
 
           {/* <Text style={styles.modalTitle}>Search Campsite Reservations</Text>
           <Text style={styles.modalText}>Number of Campers: {campers}</Text>
@@ -142,6 +124,26 @@ const CampsiteInfoScreen = ({ route }) => {
             color="#5637DD"
             title="Close"
           /> */}
+        </View>
+        <View style={{ margin: 10 }}>
+          <Button
+            onPress={() => {
+              handleSubmit();
+              resetForm();
+            }}
+            color="#5673DD"
+            title="Submit"
+          />
+        </View>
+        <View style={{ margin: 10 }}>
+          <Button
+            onPress={() => {
+              setShowModal(!showModal);
+              resetForm();
+            }}
+            color="#808080"
+            title="Cancel"
+          />
         </View>
       </Modal>
     </>
