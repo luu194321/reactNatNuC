@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View, Button, Modal } from "react-native";
-import { Rating, Input, Icon } from "react-native-elements";
+import { Rating, Input } from "react-native-elements";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import RenderCampsite from "../features/campsites/RenderCampsite";
