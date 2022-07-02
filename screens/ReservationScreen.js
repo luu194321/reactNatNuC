@@ -5,7 +5,8 @@ import {
   ScrollView,
   StyleSheet,
   Switch,
-  Modal,
+  Alert,
+  // Modal,
   Button,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
@@ -17,7 +18,7 @@ const ReservationScreen = () => {
   const [hikeIn, setHikeIn] = useState(false);
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -29,7 +30,30 @@ const ReservationScreen = () => {
     console.log("campers:", campers);
     console.log("hikeIn:", hikeIn);
     console.log("date:", date);
-    setShowModal(!showModal);
+
+    Alert.alert(
+      "Begin Search?",
+      "Number of Campers: " +
+        campers +
+        "\n" +
+        "Hike-In? " +
+        hikeIn +
+        "\n" +
+        "Date: " +
+        date.toLocaleDateString("en-US"),
+      [
+        {
+          text: "Cancel",
+          onPress: () => resetForm,
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => resetForm,
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const resetForm = () => {
@@ -92,7 +116,7 @@ const ReservationScreen = () => {
             accessibilityLabel="Tap me to search for available campsites to reserve"
           />
         </View>
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={false}
           visible={showModal}
@@ -116,7 +140,7 @@ const ReservationScreen = () => {
               title="Close"
             />
           </View>
-        </Modal>
+        </Modal> */}
       </Animatable.View>
     </ScrollView>
   );
@@ -137,10 +161,10 @@ const styles = StyleSheet.create({
   formItem: {
     flex: 1,
   },
-  modal: {
-    justifyContent: "center",
-    margin: 20,
-  },
+  // modal: {
+  //   justifyContent: "center",
+  //   margin: 20,
+  // },
   modalTitle: {
     fontSize: 24,
     fontWeight: "bold",
