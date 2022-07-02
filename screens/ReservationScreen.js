@@ -44,12 +44,12 @@ const ReservationScreen = () => {
       [
         {
           text: "Cancel",
-          onPress: () => resetForm,
+          onPress: () => resetForm(),
           style: "cancel",
         },
         {
           text: "OK",
-          onPress: () => resetForm,
+          onPress: () => resetForm(),
         },
       ],
       { cancelable: false }

@@ -10,6 +10,7 @@ const RenderCampsite = (props) => {
   const view = useRef();
 
   const isLeftSwipe = ({ dx }) => dx < -200;
+  const isRightSwipe = ({ dx }) => dx > 200;
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true, // will activate the pan responder to respond to gestures on comp its used on
@@ -42,6 +43,10 @@ const RenderCampsite = (props) => {
           ],
           { cancelable: false }
         );
+      }
+      if (isRightSwipe(gestureState)) {
+        console.log("pan responder end RIGHT SWIPE", gestureState);
+        props.onShowModal();
       }
     }, // these are values that are automatically passed into the handler. e is the native event
     // the gestureState param will hold important info about the gesture state that just ended
