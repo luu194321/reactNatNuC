@@ -1,8 +1,15 @@
-import { StyleSheet, Text, View, PanResponder, Alert } from "react-native";
+import { useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  PanResponder,
+  Alert,
+  Share,
+} from "react-native";
 import { Card, Icon } from "react-native-elements";
 import { baseUrl } from "../../shared/baseUrl";
 import * as Animatable from "react-native-animatable";
-import { useRef } from "react";
 
 const RenderCampsite = (props) => {
   const { campsite } = props;
@@ -19,8 +26,8 @@ const RenderCampsite = (props) => {
         .rubberBand(1000)
         .then((endState) =>
           console.log(endState.finished ? "finished" : "canceled")
-        );
-    }, //handler thats triggered when gesture is 1st recognized and onstartshouldpan = true
+        ); //handler thats triggered when gesture is 1st recognized and onstartshouldpan = true
+    },
     onPanResponderEnd: (e, gestureState) => {
       console.log("pan responder end", gestureState);
       if (isLeftSwipe(gestureState)) {
@@ -43,14 +50,24 @@ const RenderCampsite = (props) => {
           ],
           { cancelable: false }
         );
-      }
-      if (isRightSwipe(gestureState)) {
-        console.log("pan responder end RIGHT SWIPE", gestureState);
+      } else if (isRightSwipe(gestureState)) {
         props.onShowModal();
       }
     }, // these are values that are automatically passed into the handler. e is the native event
-    // the gestureState param will hold important info about the gesture state that just ended
-  });
+  }); // the gestureState param will hold important info about the gesture state that just ended
+
+  const shareCampsite = (title, message, url) => {
+    Share.share(
+      {
+        title,
+        message: `${title}: ${message} ${url}`,
+        url,
+      },
+      {
+        dialogTitle: "Share " + title,
+      }
+    );
+  };
 
   if (campsite) {
     return (
@@ -58,8 +75,8 @@ const RenderCampsite = (props) => {
         animation="fadeInDownBig"
         duration={2000}
         delay={1000}
-        {...panResponder.panHandlers}
         ref={view}
+        {...panResponder.panHandlers}
       >
         <Card containerStyle={styles.cardContainer}>
           <Card.Image source={{ uri: baseUrl + campsite.image }}>
@@ -88,6 +105,20 @@ const RenderCampsite = (props) => {
               raised
               reverse
               onPress={props.onShowModal}
+            />
+            <Icon
+              name="share"
+              type="font-awesome"
+              color="#5637DD"
+              raised
+              reverse
+              onPress={() =>
+                shareCampsite(
+                  campsite.name,
+                  campsite.description,
+                  baseUrl + campsite.image
+                )
+              }
             />
           </View>
         </Card>
